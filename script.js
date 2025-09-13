@@ -1,10 +1,6 @@
 // Patient Monitoring App JavaScript
 // ระบบติดตามค่าความดันโลหิตและ DTX
 
-// Supabase Configuration
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-
 // Initialize Supabase client
 let supabase;
 
@@ -15,11 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
-    // Initialize Supabase (will be configured later)
-    if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY') {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Initialize Supabase using configuration
+    if (window.SUPABASE_CONFIG && 
+        window.SUPABASE_CONFIG.url !== 'https://your-project-id.supabase.co' && 
+        window.SUPABASE_CONFIG.anonKey !== 'your-anon-key-here') {
+        supabase = window.supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
+        console.log('Supabase initialized successfully');
     } else {
-        console.warn('Supabase configuration not set. Please update SUPABASE_URL and SUPABASE_ANON_KEY.');
+        console.warn('Supabase configuration not set. Please update config.js with your Supabase credentials.');
     }
 }
 
