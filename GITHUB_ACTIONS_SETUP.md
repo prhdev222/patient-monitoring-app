@@ -11,7 +11,7 @@
 
 #### Secret 1: SUPABASE_URL
 - **Name:** `SUPABASE_URL`
-- **Value:** `https://aasojttzbfeqeasookuu.supabase.co`
+- **Value:** `https://aasojf2zf6eqaaocsau.supabase.co`
 
 #### Secret 2: SUPABASE_ANON_KEY
 - **Name:** `SUPABASE_ANON_KEY`

@@ -40,7 +40,7 @@ git push origin main
 1. ไปที่ GitHub repository
 2. **Settings** > **Secrets and variables** > **Actions**
 3. เพิ่ม secrets:
-   - `SUPABASE_URL`: `https://aasojttzbfeqeasookuu.supabase.co`
+   - `SUPABASE_URL`: `https://aasojf2zf6eqaaocsau.supabase.co`
    - `SUPABASE_ANON_KEY`: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhc29qdHR6YmZlcWVhc29va3V1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MjgwOTIsImV4cCI6MjA3MzMwNDA5Mn0.SYJzM13bDtckQLL135rGp5R3jPjQhVzy4yUFyLhtWcA`
 
 ### 5. เปิดใช้งาน GitHub Pages
