@@ -1,0 +1,37 @@
+{
+  "name": "patient-monitoring-app",
+  "version": "1.0.0",
+  "description": "ระบบติดตามค่าความดันโลหิตและ DTX สำหรับผู้ป่วย",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx live-server --port=3001 --open=/index.html",
+    "start": "npx live-server --port=3001 --open=/index.html",
+    "build": "echo 'Static site - no build process needed'",
+    "deploy": "gh-pages -d ."
+  },
+  "keywords": [
+    "healthcare",
+    "patient-monitoring",
+    "blood-pressure",
+    "diabetes",
+    "supabase",
+    "web-app"
+  ],
+  "author": "Hospital System",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "gh-pages": "^6.1.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/patient-monitoring-app.git"
+  },
+  "homepage": "https://yourusername.github.io/patient-monitoring-app",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
