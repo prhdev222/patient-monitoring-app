@@ -15,7 +15,7 @@ function initializeApp() {
     if (window.SUPABASE_CONFIG && 
         window.SUPABASE_CONFIG.url !== 'https://your-project-id.supabase.co' && 
         window.SUPABASE_CONFIG.anonKey !== 'your-anon-key-here') {
-        supabase = window.supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
+        supabase = supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
         console.log('Supabase initialized successfully');
     } else {
         console.warn('Supabase configuration not set. Please update config.js with your Supabase credentials.');

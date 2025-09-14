@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ทดสอบการเชื่อมต่อฐานข้อมูล</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-database me-2"></i>
+                            ทดสอบการเชื่อมต่อฐานข้อมูล
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white">
+                                        <h6 class="mb-0">Supabase</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <button class="btn btn-primary w-100 mb-3" onclick="testSupabase()">
+                                            <i class="fas fa-play me-2"></i>ทดสอบ Supabase
+                                        </button>
+                                        <div id="supabaseResult"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-success text-white">
+                                        <h6 class="mb-0">Neon Database</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <button class="btn btn-success w-100 mb-3" onclick="testNeon()">
+                                            <i class="fas fa-play me-2"></i>ทดสอบ Neon
+                                        </button>
+                                        <div id="neonResult"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h6>คำแนะนำ:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>ตรวจสอบ Console ในเบราว์เซอร์ (F12) สำหรับรายละเอียดข้อผิดพลาด</li>
+                                <li><i class="fas fa-check text-success me-2"></i>ตรวจสอบการตั้งค่าใน config.js</li>
+                                <li><i class="fas fa-check text-success me-2"></i>ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        async function testSupabase() {
+            const resultDiv = document.getElementById('supabaseResult');
+            resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div>กำลังทดสอบ...';
+            
+            try {
+                // ตรวจสอบการตั้งค่า
+                if (!window.SUPABASE_CONFIG) {
+                    throw new Error('ไม่พบการตั้งค่า Supabase');
+                }
+                
+                if (window.SUPABASE_CONFIG.url === 'https://your-project-id.supabase.co') {
+                    throw new Error('กรุณาอัปเดต URL ใน config.js');
+                }
+                
+                if (window.SUPABASE_CONFIG.anonKey === 'your-anon-key-here') {
+                    throw new Error('กรุณาอัปเดต anonKey ใน config.js');
+                }
+                
+                // สร้าง Supabase client
+                const supabase = supabase.createClient(
+                    window.SUPABASE_CONFIG.url, 
+                    window.SUPABASE_CONFIG.anonKey
+                );
+                
+                // ทดสอบการเชื่อมต่อ
+                const { data, error } = await supabase
+                    .from('patients')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) {
+                    throw error;
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        เชื่อมต่อ Supabase สำเร็จ!
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Supabase Error:', error);
+                resultDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>ข้อผิดพลาด:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        async function testNeon() {
+            const resultDiv = document.getElementById('neonResult');
+            resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div>กำลังทดสอบ...';
+            
+            try {
+                // ตรวจสอบการตั้งค่า
+                if (!window.NEON_CONFIG) {
+                    throw new Error('ไม่พบการตั้งค่า Neon (ต้องใช้ config-neon.js)');
+                }
+                
+                if (!window.NEON_CONFIG.connectionString) {
+                    throw new Error('กรุณาอัปเดต connectionString ใน config-neon.js');
+                }
+                
+                // ทดสอบการเชื่อมต่อผ่าน API
+                const response = await fetch('/api/health');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.status === 'OK') {
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            เชื่อมต่อ Neon สำเร็จ!<br>
+                            <small>Database: ${data.database}</small>
+                        </div>
+                    `;
+                } else {
+                    throw new Error('Database connection failed');
+                }
+                
+            } catch (error) {
+                console.error('Neon Error:', error);
+                resultDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>ข้อผิดพลาด:</strong> ${error.message}<br>
+                        <small>หมายเหตุ: Neon ต้องใช้ backend server (server-neon.js)</small>
+                    </div>
+                `;
+            }
+        }
+        
+        // ตรวจสอบการตั้งค่าเมื่อโหลดหน้า
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Supabase Config:', window.SUPABASE_CONFIG);
+            console.log('Neon Config:', window.NEON_CONFIG);
+        });
+    </script>
+</body>
+</html>
